@@ -11,7 +11,7 @@ module.exports = function(app, passport) {
     }); 
   })
   .post(passport.authenticate('local-login', {
-    successRedirect : '/profile',
+    successRedirect : '/',
     failureRedirect : '/login',
     failureFlash : true
   }));
@@ -24,16 +24,10 @@ module.exports = function(app, passport) {
     });
   })
   .post(passport.authenticate('local-signup', {
-    successRedirect : '/profile',
+    successRedirect : '/',
     failureRedirect : '/signup',
     failureFlash : true
   }));
-
-  app.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile', {
-        user : req.user
-    });
-  });
 
   app.get('/logout', function(req, res) {
     req.logout();
