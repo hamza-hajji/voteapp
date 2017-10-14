@@ -1,14 +1,18 @@
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
-    res.render('index'); 
+    res.render('home', {
+      title: !req.isAuthenticated() ? 'Home' : 'Dashboard',
+      isAuthenticated: req.isAuthenticated()
+    }); 
   });
 
   app.route('/login')
   .get(function(req, res) {
     res.render('login', {
       message: req.flash('loginMessage'),
-      title: 'Login'
-    }); 
+      title: 'Login',
+      isLogin: true,
+    });
   })
   .post(passport.authenticate('local-login', {
     successRedirect : '/',
@@ -20,7 +24,8 @@ module.exports = function(app, passport) {
   .get(function(req, res) {
     res.render('signup', {
       message: req.flash('signupMessage'),
-      title: 'Signup'
+      title: 'Signup',
+      isSignup: true,
     });
   })
   .post(passport.authenticate('local-signup', {
