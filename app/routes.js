@@ -1,3 +1,5 @@
+var Poll = require('./models/poll');
+var {ObjectID} = require('mongodb');
 
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
@@ -14,7 +16,7 @@ module.exports = function(app, passport) {
       return res.redirect('/');
     }
     res.render('login', {
-      messages: [req.flash('loginMessage')],
+      message: req.flash('loginMessage'),
       title: 'Login',
       isLogin: true,
     });
@@ -32,7 +34,7 @@ module.exports = function(app, passport) {
       return res.redirect('/');
     }
     res.render('signup', {
-      messages: [req.flash('signupMessage')],
+      message: req.flash('signupMessage'),
       title: 'Signup',
       isSignup: true,
     });
@@ -49,6 +51,33 @@ module.exports = function(app, passport) {
     res.redirect('/');
   });
 
+  app.route('/new')
+    .get(isLoggedIn, function (req, res) {
+      res.render('createPoll', {
+        title: 'Create Poll',
+        isAuthenticated: req.isAuthenticated(),
+        message: req.flash('newPollMessage')
+      });
+    })
+    .post(isLoggedIn, function (req, res) {
+      if (req.body.name && req.body.options) {
+        var newPoll = new Poll({
+          name: req.body.name,
+          options: req.body.options,
+          owner: (new ObjectID(req.user._id)).toHexString()
+        });
+
+        newPoll.save().then(function() {
+          res.redirect('/');
+        }).catch(function(e) {
+          req.flash('newPollMessage', 'Something went wrong.')
+          res.redirect('/new');
+        });
+      } else {
+        req.flash('newPollMessage', 'Name and options must be provided.')
+        res.redirect('/new');
+      }
+    });
 };
 
 function isLoggedIn(req, res, next) {
