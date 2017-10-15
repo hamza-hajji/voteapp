@@ -1,4 +1,5 @@
 var Poll = require('./models/poll');
+var User = require('./models/user');
 var {ObjectID} = require('mongodb');
 
 module.exports = function(app, passport) {
@@ -78,6 +79,25 @@ module.exports = function(app, passport) {
         res.redirect('/new');
       }
     });
+
+  app.get('/:username/polls/:id', function(req, res) {
+    User.findOne({
+      'local.username': req.params.username
+    }, function(err, user) {
+      if (err || !user) return res.redirect('/');
+
+      Poll.findOne({
+        _id: (new ObjectID(req.params.id)).toHexString(),
+        owner: (new ObjectID(user._id)).toHexString()
+      }, function(err, poll) {
+        if (err || !poll) return res.redirect('/')
+
+        res.render('showPoll', {
+          poll: poll
+        })
+      });
+    });
+  });
 };
 
 function isLoggedIn(req, res, next) {
