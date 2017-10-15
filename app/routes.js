@@ -128,6 +128,12 @@ module.exports = function(app, passport) {
       });
   });
 
+  app.get('/polls', function (req, res) {
+    res.render('showAllPolls', {
+      title: 'All Polls'
+    });
+  });
+
 };
 
 function isLoggedIn(req, res, next) {
