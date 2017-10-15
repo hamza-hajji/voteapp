@@ -1,8 +1,10 @@
+
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
     res.render('home', {
       title: !req.isAuthenticated() ? 'Home' : 'Dashboard',
-      isAuthenticated: req.isAuthenticated()
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user
     });
   });
 
@@ -12,15 +14,16 @@ module.exports = function(app, passport) {
       return res.redirect('/');
     }
     res.render('login', {
-      message: req.flash('loginMessage'),
+      messages: [req.flash('loginMessage')],
       title: 'Login',
       isLogin: true,
     });
   })
-  .post(passport.authenticate('local-login', {
-    successRedirect : '/',
-    failureRedirect : '/login',
-    failureFlash : true
+  .post(
+    passport.authenticate('local-login', {
+      successRedirect : '/',
+      failureRedirect : '/login',
+      failureFlash : true
   }));
 
   app.route('/signup')
@@ -29,15 +32,16 @@ module.exports = function(app, passport) {
       return res.redirect('/');
     }
     res.render('signup', {
-      message: req.flash('signupMessage'),
+      messages: [req.flash('signupMessage')],
       title: 'Signup',
       isSignup: true,
     });
   })
-  .post(passport.authenticate('local-signup', {
-    successRedirect : '/',
-    failureRedirect : '/signup',
-    failureFlash : true
+  .post(
+      passport.authenticate('local-signup', {
+      successRedirect : '/',
+      failureRedirect : '/signup',
+      failureFlash : true
   }));
 
   app.get('/logout', function(req, res) {
