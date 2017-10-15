@@ -1,7 +1,12 @@
 body {
   padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .jumbotron {
   background-color: #fff;
+}
+
+#myChart {
+  margin-top: 60px;
 }

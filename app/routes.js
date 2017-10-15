@@ -80,7 +80,7 @@ module.exports = function(app, passport) {
       }
     });
 
-  app.get('/:username/polls/:id', function(req, res) {
+  app.get('/api/:username/polls/:id', function(req, res) {
     User.findOne({
       'local.username': req.params.username
     }, function(err, user) {
@@ -92,10 +92,16 @@ module.exports = function(app, passport) {
       }, function(err, poll) {
         if (err || !poll) return res.redirect('/')
 
-        res.render('showPoll', {
+        res.json({
           poll: poll
-        })
+        });
       });
+    });
+  });
+
+  app.get('/:username/polls/:id', function(req, res) {
+    res.render('showPoll', {
+      title: 'Show Poll'
     });
   });
 };
