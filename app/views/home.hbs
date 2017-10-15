@@ -1,4 +1,33 @@
 {{> header }}
 
 
+  {{#if isAuthenticated}}
+
+    <div class="jumbotron text-center">
+      <h1 class="display-3">Hello, {{user.username}}!</h1>
+      <p class="lead">Welcome to the voting application</p>
+      <hr class="my-4">
+      <p class="lead">You can create your own poll</p>
+      <a class="btn btn-dark btn-lg" href="/new">New poll</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <hr class="my-4">
+      <p class="lead">Or, browse all your polls:</p>
+      <a class="btn btn-primary btn-lg" href="/polls">My Polls</a>
+    </div>
+
+  {{else}}
+
+    <div class="jumbotron text-center">
+      <h1 class="display-3">Hello, There!</h1>
+      <p class="lead">Welcome to the voting application</p>
+      <hr class="my-4">
+      <p class="lead">Don't know where to start? signup or login</p>
+      <a class="btn btn-dark btn-lg" href="/signup">Signup</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a class="btn btn-dark btn-lg" href="/login">Login</a>
+      <hr class="my-4">
+      <p class="lead">Or, browse all the created polls:</p>
+      <a class="btn btn-primary btn-lg" href="/polls">Browse Polls</a>
+    </div>
+
+  {{/if}}
+
 {{> footer }}

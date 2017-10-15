@@ -3,11 +3,14 @@ module.exports = function(app, passport) {
     res.render('home', {
       title: !req.isAuthenticated() ? 'Home' : 'Dashboard',
       isAuthenticated: req.isAuthenticated()
-    }); 
+    });
   });
 
   app.route('/login')
   .get(function(req, res) {
+    if (req.isAuthenticated()) {
+      return res.redirect('/');
+    }
     res.render('login', {
       message: req.flash('loginMessage'),
       title: 'Login',
@@ -22,6 +25,9 @@ module.exports = function(app, passport) {
 
   app.route('/signup')
   .get(function(req, res) {
+    if (req.isAuthenticated()) {
+      return res.redirect('/');
+    }
     res.render('signup', {
       message: req.flash('signupMessage'),
       title: 'Signup',
