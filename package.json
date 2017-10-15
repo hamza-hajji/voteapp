@@ -12,6 +12,7 @@
     "express": "~4.0.0",
     "express-handlebars": "^3.0.0",
     "express-session": "~1.0.0",
+    "lodash": "^4.17.4",
     "method-override": "~1.0.0",
     "mongodb": "^2.2.33",
     "mongoose": "~4.4",

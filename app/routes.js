@@ -1,6 +1,7 @@
 var Poll = require('./models/poll');
 var User = require('./models/user');
 var {ObjectID} = require('mongodb');
+var _ = require('lodash');
 
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
@@ -80,30 +81,53 @@ module.exports = function(app, passport) {
       }
     });
 
-  app.get('/api/:username/polls/:id', function(req, res) {
-    User.findOne({
-      'local.username': req.params.username
-    }, function(err, user) {
-      if (err || !user) return res.redirect('/');
+  app.get('/api/polls/:name', function(req, res) {
+    Poll.findOne({
+      name: req.params.name
+    }, function(err, poll) {
+      if (err || !poll) return res.json({});
 
-      Poll.findOne({
-        _id: (new ObjectID(req.params.id)).toHexString(),
-        owner: (new ObjectID(user._id)).toHexString()
-      }, function(err, poll) {
-        if (err || !poll) return res.redirect('/')
-
+      User.findById(poll.owner, function (err, user) {
+        if (err || !user) return res.json({});
         res.json({
-          poll: poll
+          poll: {
+            user: user.local.username,
+            name: poll.name,
+            options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
+          } // to avoid showing ids in responses
         });
       });
     });
   });
 
-  app.get('/:username/polls/:id', function(req, res) {
+  app.get('/polls/:name', function(req, res) {
     res.render('showPoll', {
       title: 'Show Poll'
     });
   });
+
+  app.get('/api/polls', function(req, res) {
+    Poll.find({})
+      .exec()
+      .then(function(polls) {
+        if (!polls) return res.json({});
+
+        Promise.all(polls.map(function (poll) {
+          return User.findById(poll.owner)
+                  .exec()
+                  .then(function (user) {
+                    return {
+                      user: user.local.username,
+                      name: poll.name,
+                      options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
+                    }
+                  });
+        })).then(function (polls) {
+          res.json({polls});
+        })
+      });
+  });
+
 };
 
 function isLoggedIn(req, res, next) {

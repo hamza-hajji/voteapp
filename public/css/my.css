@@ -10,3 +10,8 @@ body {
 #myChart {
   margin-top: 60px;
 }
+
+ul {
+  list-style: none;
+  list-style-position: inside;
+}
