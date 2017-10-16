@@ -8,7 +8,8 @@ module.exports = function(app, passport) {
     res.render('home', {
       title: !req.isAuthenticated() ? 'Home' : 'Dashboard',
       isAuthenticated: req.isAuthenticated(),
-      user: req.user
+      user: req.user,
+      message: req.flash('deletePollMessage')
     });
   });
 
@@ -102,7 +103,8 @@ module.exports = function(app, passport) {
 
   app.get('/polls/:name', function(req, res) {
     res.render('showPoll', {
-      title: 'Show Poll'
+      title: 'Show Poll',
+      isAuthenticated: req.isAuthenticated()
     });
   });
 
@@ -128,12 +130,61 @@ module.exports = function(app, passport) {
       });
   });
 
+  app.get('/api/mypolls', isLoggedIn, function(req, res) {
+    Poll.find({})
+      .exec()
+      .then(function(polls) {
+        if (!polls) return res.json({});
+
+        Promise.all(polls.map(function (poll) {
+          return User.findById(poll.owner)
+                  .exec()
+                  .then(function (user) {
+                    return {
+                      user: user.local.username,
+                      name: poll.name,
+                      options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
+                    }
+                  });
+        })).then(function (polls) {
+          res.json({
+            polls: polls.filter(function (poll) {
+              return poll.user === req.user.local.username;
+            })
+          });
+        })
+      });
+  });
+
+  app.delete('/api/polls/:name', isLoggedIn, function (req, res) {
+    Poll
+      .findOneAndRemove({
+        name: req.params.name,
+        owner: (new ObjectID(req.user._id)).toHexString()
+      })
+      .exec()
+      .then(function (poll) {
+        if (!poll) {
+          req.flash('deletePollMessage', 'Poll doesn\'t exist');
+          req.redirect('/');
+        }
+
+        res.json({message: 'Poll deleted!'});
+      });
+  });
+
   app.get('/polls', function (req, res) {
     res.render('showAllPolls', {
       title: 'All Polls'
     });
   });
 
+  app.get('/myPolls', isLoggedIn, function (req, res) {
+    res.render('showMyPolls', {
+      title: 'My Polls',
+      isAuthenticated: req.isAuthenticated()
+    });
+  });
 };
 
 function isLoggedIn(req, res, next) {

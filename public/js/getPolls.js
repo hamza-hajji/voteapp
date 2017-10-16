@@ -3,7 +3,6 @@ $(document).ready(function () {
     url: `${window.location.origin}/api/polls`,
     method: 'GET',
     success: function (data) {
-      console.log(data.polls)
       for (var poll of data.polls) {
         var pollLink = '/polls/' + poll.name;
         var $pollElement = `
@@ -13,8 +12,7 @@ $(document).ready(function () {
             <small>${poll.options.length}</small>
           </div>
           <p class="mb-1">created by ${poll.user}</p>
-        </a>
-        `;
+        </a>`;
         $('.list-group').append($pollElement);
       }
     }

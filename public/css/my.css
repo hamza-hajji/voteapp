@@ -15,3 +15,7 @@ ul {
   list-style: none;
   list-style-position: inside;
 }
+
+.list-group a:hover {
+  text-decoration: none;
+}
