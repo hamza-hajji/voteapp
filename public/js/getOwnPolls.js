@@ -9,7 +9,7 @@ $(document).ready(function () {
         <li class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1"><a class="text-dark" href="${pollLink}" target="_blank">${poll.name}</a></h5><br><br>
-            <button data-value="${poll.name}" id="deletePoll" class="btn btn-dark">Delete</button>
+            <button data-value="${poll.name}" id="deletePoll" class="btn btn-danger">Delete</button>
           </div>
         </li>
         `;

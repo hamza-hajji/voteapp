@@ -14,6 +14,8 @@ $(document).ready(function() {
     url: `${window.location.origin}/api/polls/${pollName}`,
     method: 'GET',
     success: function(data) {
+      var $optionElement = '';
+
       $('.poll-title').html(data.poll.name);
       $('.poll-author').html(data.poll.user);
       if (allZeros(data.poll.options)) {
@@ -31,14 +33,44 @@ $(document).ready(function() {
               data: data.poll.options.map(function(option) { return option.votes }),
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
-                  'rgba(255, 0, 132, 0.2)'
               ]
             }]
           }
         };
         var myChart = new Chart(ctx, chartObj);
       }
+
+      for (let option of data.poll.options) {
+        console.log(option.name);
+        $optionElement += `
+        <div class="form-check">
+          <label class="form-check-label">
+            <input value="${option.name}" class="form-check-input" type="radio" name="vote">
+            ${option.name}
+          </label>
+        </div>`;
+      }
+      $('#votingModal .modal-body form').html($optionElement);
     }
   });
 
+  var name = '';
+  $(document.body).on('click', 'input[name="vote"]', function (e) {
+    var radios = $('input[name="vote"]');
+    for (var radio of radios) {
+      if ($(radio).prop('checked')) name = $(radio).val();
+    }
+  });
+
+  $(document.body).on('click', '#voteButton', function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: `${window.location.origin}/api/polls/${pollName}/vote/${name}`,
+      method: 'POST',
+      success: function () { // redirect to poll page
+        window.location = `${window.location.origin}/polls/${pollName}`;
+      }
+    });
+  });
 });

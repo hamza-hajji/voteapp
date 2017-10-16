@@ -169,6 +169,29 @@ module.exports = function(app, apiRoutes, passport) {
       });
   });
 
+  apiRoutes.post('/polls/:name/vote/:option', function (req, res) {
+    if (req.params.name && req.params.option) {
+      Poll
+        .findOneAndUpdate({
+          name: req.params.name,
+          "options.name": req.params.option
+        }, {
+          $inc: {
+            'options.$.votes': 1
+          }
+        })
+        .exec()
+        .then(function (poll) {
+          res.json({
+            message: 'successfully voted',
+            poll: poll
+          })
+        });
+    } else {
+      res.json({});
+    }
+  });
+
   apiRoutes.delete('/polls/:name', isLoggedIn, function (req, res) {
     Poll
       .findOneAndRemove({
@@ -185,6 +208,7 @@ module.exports = function(app, apiRoutes, passport) {
         res.json({message: 'Poll deleted!'});
       });
   });
+
 };
 
 function isLoggedIn(req, res, next) {
