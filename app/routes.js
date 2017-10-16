@@ -71,7 +71,7 @@ module.exports = function(app, apiRoutes, passport) {
         });
 
         newPoll.save().then(function() {
-          res.redirect('/');
+          res.redirect(`/myPolls/`);
         }).catch(function(e) {
           req.flash('newPollMessage', 'Something went wrong.')
           res.redirect('/new');
