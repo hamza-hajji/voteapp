@@ -43,5 +43,5 @@ require('./app/routes.js')(app, apiRoutes, passport);
 
 app.use('/api', apiRoutes);
 
-app.listen(port);
+app.listen(port || process.env.PORT);
 console.log('The magic happens on port ' + port);
