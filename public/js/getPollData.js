@@ -64,13 +64,19 @@ $(document).ready(function() {
 
   $(document.body).on('click', '#voteButton', function (e) {
     e.preventDefault();
+    if (window.localStorage.getItem(pollName)) {
+      window.location = `${window.location.origin}/polls/${pollName}`;
+      alert('You already voted in this poll!');
+    } else {
+      $.ajax({
+        url: `${window.location.origin}/api/polls/${pollName}/vote/${name}`,
+        method: 'POST',
+        success: function () { // redirect to poll page
+          window.localStorage.setItem(pollName, name);
+          window.location = `${window.location.origin}/polls/${pollName}`;
+        }
+      });
+    }
 
-    $.ajax({
-      url: `${window.location.origin}/api/polls/${pollName}/vote/${name}`,
-      method: 'POST',
-      success: function () { // redirect to poll page
-        window.location = `${window.location.origin}/polls/${pollName}`;
-      }
-    });
   });
 });
