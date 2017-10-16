@@ -4,6 +4,9 @@
   "scripts": {
     "watch": "nodemon server"
   },
+  "engines": {
+    "node": "8.4.0"
+  },
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
