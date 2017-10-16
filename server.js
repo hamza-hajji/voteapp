@@ -37,7 +37,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-require('./app/routes.js')(app, passport);
+var apiRoutes = express.Router();
+
+require('./app/routes.js')(app, apiRoutes, passport);
+
+app.use('/api', apiRoutes);
 
 app.listen(port);
 console.log('The magic happens on port ' + port);

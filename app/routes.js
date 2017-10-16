@@ -3,7 +3,7 @@ var User = require('./models/user');
 var {ObjectID} = require('mongodb');
 var _ = require('lodash');
 
-module.exports = function(app, passport) {
+module.exports = function(app, apiRoutes, passport) {
   app.get('/', function(req, res) {
     res.render('home', {
       title: !req.isAuthenticated() ? 'Home' : 'Dashboard',
@@ -82,7 +82,27 @@ module.exports = function(app, passport) {
       }
     });
 
-  app.get('/api/polls/:name', function(req, res) {
+  app.get('/polls', function (req, res) {
+    res.render('showAllPolls', {
+      title: 'All Polls'
+    });
+  });
+
+  app.get('/myPolls', isLoggedIn, function (req, res) {
+    res.render('showMyPolls', {
+      title: 'My Polls',
+      isAuthenticated: req.isAuthenticated()
+    });
+  });
+
+  app.get('/polls/:name', function(req, res) {
+    res.render('showPoll', {
+      title: 'Show Poll',
+      isAuthenticated: req.isAuthenticated()
+    });
+  });
+
+  apiRoutes.get('/polls/:name', function(req, res) {
     Poll.findOne({
       name: req.params.name
     }, function(err, poll) {
@@ -101,14 +121,7 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/polls/:name', function(req, res) {
-    res.render('showPoll', {
-      title: 'Show Poll',
-      isAuthenticated: req.isAuthenticated()
-    });
-  });
-
-  app.get('/api/polls', function(req, res) {
+  apiRoutes.get('/polls', function(req, res) {
     Poll.find({})
       .exec()
       .then(function(polls) {
@@ -130,7 +143,7 @@ module.exports = function(app, passport) {
       });
   });
 
-  app.get('/api/mypolls', isLoggedIn, function(req, res) {
+  apiRoutes.get('/mypolls', isLoggedIn, function(req, res) {
     Poll.find({})
       .exec()
       .then(function(polls) {
@@ -156,7 +169,7 @@ module.exports = function(app, passport) {
       });
   });
 
-  app.delete('/api/polls/:name', isLoggedIn, function (req, res) {
+  apiRoutes.delete('/polls/:name', isLoggedIn, function (req, res) {
     Poll
       .findOneAndRemove({
         name: req.params.name,
@@ -171,19 +184,6 @@ module.exports = function(app, passport) {
 
         res.json({message: 'Poll deleted!'});
       });
-  });
-
-  app.get('/polls', function (req, res) {
-    res.render('showAllPolls', {
-      title: 'All Polls'
-    });
-  });
-
-  app.get('/myPolls', isLoggedIn, function (req, res) {
-    res.render('showMyPolls', {
-      title: 'My Polls',
-      isAuthenticated: req.isAuthenticated()
-    });
   });
 };
 
