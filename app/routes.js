@@ -84,6 +84,7 @@ module.exports = function(app, apiRoutes, passport) {
 
   app.get('/polls', function (req, res) {
     res.render('showAllPolls', {
+      isAuthenticated: req.isAuthenticated(),
       title: 'All Polls'
     });
   });

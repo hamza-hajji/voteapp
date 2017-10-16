@@ -11,14 +11,18 @@
         <label for="exampleInputEmail1">Poll name</label>
         <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder="Name">
       </div>
-      <div class="form-group">
+      <div class="form-group options">
         <label for="exampleInputEmail1">Options</label>
-        <input type="text" name="options[0][name]" class="form-control" id="option1" placeholder="Option 1"><br>
-        <input type="text" name="options[1][name]" class="form-control" id="option2" placeholder="Option 2">
+        <input type="text" name="options[1][name]" class="form-control" id="option1" placeholder="Option 1"><br>
+        <input type="text" name="options[2][name]" class="form-control" id="option2" placeholder="Option 2"><br>
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <button class="btn btn-dark" id="addButton">Add Option</button>
+      <button class="btn btn-dark" id="removeButton">Remove Option</button>
+      <button type="submit" class="btn btn-dark">Add Poll</button>
     </form>
-
+    
   </div>
+
+  <script src="/js/createPoll.js"></script>
 
 {{> footer }}
