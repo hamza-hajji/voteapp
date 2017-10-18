@@ -10,7 +10,7 @@ $(document).ready(function () {
         `);
       } else {
         for (var poll of data.polls) {
-          var pollLink = '/polls/' + poll.name;
+          var pollLink = '/polls/' + poll.id;
           var $pollElement = `
           <li class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">

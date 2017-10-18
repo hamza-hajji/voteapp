@@ -17,6 +17,7 @@ $(document).ready(function () {
   $('#removeButton').click(function (e) {
     e.preventDefault();
     if (currNum === 2) return;
+    $(`#option${currNum} + br`).remove();
     $(`#option${currNum}`).remove();
     currNum--;
   });

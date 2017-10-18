@@ -71,7 +71,7 @@ module.exports = function(app, apiRoutes, passport) {
         });
 
         newPoll.save().then(function() {
-          res.redirect(`/myPolls/`);
+          res.redirect(`/myPolls`);
         }).catch(function(e) {
           req.flash('newPollMessage', 'Something went wrong.')
           res.redirect('/new');
@@ -96,30 +96,34 @@ module.exports = function(app, apiRoutes, passport) {
     });
   });
 
-  app.get('/polls/:name', function(req, res) {
+  app.get('/polls/:id', function(req, res) {
     res.render('showPoll', {
       title: 'Show Poll',
       isAuthenticated: req.isAuthenticated()
     });
   });
 
-  apiRoutes.get('/polls/:name', function(req, res) {
-    Poll.findOne({
-      name: req.params.name
-    }, function(err, poll) {
-      if (err || !poll) return res.json({});
+  apiRoutes.get('/polls/:id', function(req, res) {
+    if (req.params.id) {
+      Poll.findById(req.params.id, function(err, poll) {
+        if (err) return res.json({});
+        if (!poll) return res.status(404).json({});
 
-      User.findById(poll.owner, function (err, user) {
-        if (err || !user) return res.json({});
-        res.json({
-          poll: {
-            user: user.local.username,
-            name: poll.name,
-            options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
-          } // to avoid showing ids in responses
+        User.findById(poll.owner, function (err, user) {
+          if (err || !user) return res.json({});
+          res.json({
+            poll: {
+              id: poll.id,
+              user: user.local.username,
+              name: poll.name,
+              options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
+            } // to avoid showing ids in responses
+          });
         });
       });
-    });
+    } else {
+
+    }
   });
 
   apiRoutes.get('/polls', function(req, res) {
@@ -133,6 +137,7 @@ module.exports = function(app, apiRoutes, passport) {
                   .exec()
                   .then(function (user) {
                     return {
+                      id: poll.id,
                       user: user.local.username,
                       name: poll.name,
                       options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
@@ -155,6 +160,7 @@ module.exports = function(app, apiRoutes, passport) {
                   .exec()
                   .then(function (user) {
                     return {
+                      id: poll.id,
                       user: user.local.username,
                       name: poll.name,
                       options: poll.options.map(function(option) { return _.pick(option, ['name' , 'votes']) })
@@ -170,11 +176,11 @@ module.exports = function(app, apiRoutes, passport) {
       });
   });
 
-  apiRoutes.post('/polls/:name/vote/:option', function (req, res) {
-    if (req.params.name && req.params.option) {
+  apiRoutes.post('/polls/:id/vote/:option', function (req, res) {
+    if (req.params.id && req.params.option) {
       Poll
         .findOneAndUpdate({
-          name: req.params.name,
+          _id: (new ObjectID(req.params.id)).toHexString(),
           "options.name": req.params.option
         }, {
           $inc: {
