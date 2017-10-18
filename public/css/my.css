@@ -23,3 +23,7 @@ ul {
 #modalButton {
   margin-top: 40px;
 }
+
+#exampleAccordion a:hover {
+  text-decoration: none;
+}

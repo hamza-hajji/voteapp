@@ -6,7 +6,64 @@
     </div>
   </footer>
 
+  <!-- About Modal -->
+  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">About VoteAPP</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          Visit me on github to see more of my projects: <a class="text-dark" href="https://github.com/hamza-hajji" target="_blank"><strong>hamza-hajji</strong></a>
+        </div>
+          <h2>Technologies Used</h2>
+          <br>
+          <div id="exampleAccordion" data-children=".item">
+            <div class="item">
+              <a class="text-dark" data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion1" aria-expanded="true" aria-controls="exampleAccordion1">
+                <h4>&#43; Front-end</h4>
+              </a>
+              <div id="exampleAccordion1" class="collapse" role="tabpanel">
+                <p class="mb-3">
+                  <h5>jQuery: <span class="h6">for ajax requests and DOM manipulation.</span></h5>
+                  <h5>Handlebars: <span class="h6">NodeJS package for views templating.</span></h5>
+                </p>
+              </div>
+            </div>
+            <div class="item">
+              <a class="text-dark" data-toggle="collapse" data-parent="#exampleAccordion" href="#exampleAccordion2" aria-expanded="false" aria-controls="exampleAccordion2">
+                <h4>&#43; Back-end</h4>
+              </a>
+              <div id="exampleAccordion2" class="collapse" role="tabpanel">
+                <p class="mb-3">
+                  <h5>Express: <span class="h6">NodeJS package for routing and DB interactions.</span></h5>
+                  <h5>Mongoose: <span class="h6">MongoDB driver for writing database schemes.</span></h5>
+                  <h5>Passport: <span class="h6">for user authentication.</span></h5>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script>
+    $('#aboutButton').click(function (e) {
+      e.preventDefault();
+    });
+  </script>
 </body>
 </html>
