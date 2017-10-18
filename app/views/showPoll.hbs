@@ -8,8 +8,30 @@
         
         <h1>Poll - <span class='poll-title'></span></h1>
         <h4>Started by <span class="poll-author"></span></h4>
-        <div class="output"></div>
+        <div class="output"></div><br>
         
+        <button data-toggle="modal" data-target="#shareModal" class="btn btn-lg btn-primary">Share</button>
+
+        <div class="modal fade" id="shareModal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Share this poll</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h5>Share this poll with this link:</h5>
+                <code><span class="poll-link"></span></code>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <canvas id="myChart" width="400" height="400"></canvas>
         
         <!-- Button trigger modal -->

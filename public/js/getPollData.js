@@ -22,8 +22,9 @@ $(document).ready(function() {
         return
       }
 
-      $('.poll-title').html(data.poll.name);
-      $('.poll-author').html(data.poll.user);
+      $('.poll-link').text(pollLink);
+      $('.poll-title').text(data.poll.name);
+      $('.poll-author').text(data.poll.user);
       if (allZeros(data.poll.options)) {
         $('.output').html($('<p class="lead">')
           .html('There is nothing to show, be the first one to vote!'));
