@@ -28,6 +28,7 @@ $(document).ready(function() {
       if (allZeros(data.poll.options)) {
         $('.output').html($('<p class="lead">')
           .html('There is nothing to show, be the first one to vote!'));
+        $('#shareButton').remove();
         $('#myChart').remove();
       } else {
         var ctx = document.getElementById("myChart").getContext('2d');

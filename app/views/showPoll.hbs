@@ -1,16 +1,16 @@
 {{> header }}
 
   <div class="container">
-    
+
     <div class="row">
-      
+
       <div class="col-xs-8 mx-auto text-center">
-        
+
         <h1>Poll - <span class='poll-title'></span></h1>
         <h4>Started by <span class="poll-author"></span></h4>
         <div class="output"></div><br>
-        
-        <button data-toggle="modal" data-target="#shareModal" class="btn btn-lg btn-primary">Share</button>
+
+        <button data-toggle="modal" data-target="#shareModal" class="btn btn-lg btn-primary" id="shareButton">Share</button>
 
         <div class="modal fade" id="shareModal">
           <div class="modal-dialog" role="document">
@@ -33,7 +33,7 @@
         </div>
 
         <canvas id="myChart" width="400" height="400"></canvas>
-        
+
         <!-- Button trigger modal -->
         <button id="modalButton" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#votingModal">
           Vote
@@ -51,7 +51,7 @@
               </div>
               <div class="modal-body">
                 <form>
-                  
+
                 </form>
               </div>
               <div class="modal-footer">
