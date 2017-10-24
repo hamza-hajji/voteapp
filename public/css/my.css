@@ -20,7 +20,7 @@ ul {
   text-decoration: none;
 }
 
-#modalButton {
+#modalButton, #shareButton {
   margin-top: 40px;
 }
 

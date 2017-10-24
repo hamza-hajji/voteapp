@@ -10,8 +10,6 @@
         <h4>Started by <span class="poll-author"></span></h4>
         <div class="output"></div><br>
 
-        <button data-toggle="modal" data-target="#shareModal" class="btn btn-lg btn-primary" id="shareButton">Share</button>
-
         <div class="modal fade" id="shareModal">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -33,11 +31,9 @@
         </div>
 
         <canvas id="myChart" width="400" height="400"></canvas>
-
-        <!-- Button trigger modal -->
-        <button id="modalButton" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#votingModal">
-          Vote
-        </button>
+        
+        <button id="modalButton" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#votingModal">Vote</button>&nbsp;&nbsp;&nbsp;
+        <button data-toggle="modal" data-target="#shareModal" class="btn btn-primary btn-lg" id="shareButton">Share</button>
 
         <!-- Modal -->
         <div class="modal fade" id="votingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
